@@ -10,6 +10,7 @@ import random
 import xmlParse 
 import translate
 import embeds as E
+import reactions as R
 
 #Alle Intents Einbinden und Bot-Erstellen
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix='>')
@@ -40,7 +41,7 @@ async def _echo(ctx, *, arg):
 
 @bot.command(aliases=['Help','hilfe','Hilfe','?'])
 async def _help(ctx):
-    embed = E.embed_Help(bot.command_prefix)
+    embed = E.embed_Help(ctx.author.display_name, ctx.author.avatar_url, bot.command_prefix)
     await ctx.send(embed=embed)
 
 @bot.command(name='announce')
@@ -133,8 +134,10 @@ async def _ToDoDisplay(ctx):
     else:
         Sendout = "In der ToDo-Liste steht: \n"
 
+        n = 0
         for x in listcontent:
-            Sendout += f'{x} \n'
+            n+1
+            Sendout += f'{n}.{x} \n'
 
     await ctx.send(Sendout)
 
@@ -162,39 +165,18 @@ async def on_message(message):
     #Wenn der Author ein Bot ist, wird die Nachricht ignoriert
     if message.author.bot:
         return
-    
-    #Der Text wird aus der Nachricht genommen und kompletzt ins lowercase gebracht
-    text = message.content 
-    lowtext = ' ' + text.lower()
-    
+
     #Der Channel wird sich zum senden in der Zunkunft gemerkt
     channel = message.channel
 
-    #überprüfen , ob keywords in der Nachricht vorkommen
-    if 'sus' in lowtext:
-        await channel.send ('<:sus:801890994869895199> SUS')
-    elif 'katze' in lowtext or 'kadse' in lowtext:
-        await channel.send ('Kadse <:Catluv:838495070130536468>')
-    elif 'jonas' in lowtext:
-        await channel.send ('Jonas du Sinkst')    
-    elif 'focus' in lowtext or 'fokus' in lowtext:
-        await channel.send ('Ich hab in den Focus gekaggert :)')
-    elif 'xd' in lowtext or 'lol' in lowtext:
-        await channel.send ('XDDDDDD') 
-    elif 'ez' in lowtext or 'easy' in lowtext or 'gg' in lowtext:
-        await channel.send ('GG EZ')
-    elif 'moin' in lowtext or 'hallo' in lowtext:
-        await channel.send ('Moin!')  
-    elif ' ben' in lowtext or 'knecht' in lowtext:
-        await channel.send ('Knecht 💀')
-    elif 'fortnite' in lowtext:
-        await channel.send ('FORTNITE')
-        await channel.send ('https://tenor.com/view/fortnite-snake-eyes-orange-justice-dancing-dance-gif-22082452')
-    elif 'ente' in lowtext or 'duck' in lowtext:
-        await channel.send('https://cdn.discordapp.com/attachments/933129013185085530/971433609292550214/unknown.png')
-        #await channel.send('https://cdn.discordapp.com/attachments/933129013185085530/971434786482688071/unknown.png')
-    #elif 'amelie' in lowtext or 'finn' in lowtext:
-    #    await channel.send('https://cdn.discordapp.com/attachments/789562687054413836/964913032692117514/unknown.png')
+    #Der Text wird aus der Nachricht genommen
+    text = message.content 
+
+    #Reaktion wird aus der Reaktionsliste geholt
+    reaction = R._getReaction(text)
+
+    #Reaktionsnachricht Senden
+    await channel.send(reaction)
     
 
 #Token wird aus der token.xml genommen und eingefügt
