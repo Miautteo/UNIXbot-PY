@@ -9,6 +9,7 @@ import random
 #Eigene Klassen Importieren
 import xmlParse 
 import translate
+import embeds as E
 
 #Alle Intents Einbinden und Bot-Erstellen
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix='>')
@@ -36,6 +37,11 @@ async def ping(ctx, *, arg):
 @bot.command(name='echo')
 async def _echo(ctx, *, arg):
     await ctx.send(arg)
+
+@bot.command(aliases=['Help','hilfe','Hilfe','?'])
+async def _help(ctx):
+    embed = E.embed_Help(bot.command_prefix)
+    await ctx.send(embed=embed)
 
 @bot.command(name='announce')
 async def _announce(ctx, *, arg):
