@@ -166,9 +166,6 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    #Der Channel wird sich zum senden in der Zunkunft gemerkt
-    channel = message.channel
-
     #Der Text wird aus der Nachricht genommen
     text = message.content 
 
@@ -176,7 +173,8 @@ async def on_message(message):
     reaction = R._getReaction(text)
 
     #Reaktionsnachricht Senden
-    await channel.send(reaction)
+    if reaction:
+        await message.reply(reaction, mention_author=False)
     
 
 #Token wird aus der token.xml genommen und eingefügt

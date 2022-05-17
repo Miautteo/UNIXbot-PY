@@ -25,6 +25,10 @@ def _getReaction(_messageText):
         return('https://tenor.com/view/fortnite-snake-eyes-orange-justice-dancing-dance-gif-22082452')
     elif 'ente' in lowtext or 'duck' in lowtext:
         return('https://cdn.discordapp.com/attachments/933129013185085530/971433609292550214/unknown.png')
+    elif 'ass' in lowtext:
+            return('booty hypnotic make you want more')
+    elif 'banana' in lowtext or 'banane' in lowtext:
+        return(':banana:')
         #return('https://cdn.discordapp.com/attachments/933129013185085530/971434786482688071/unknown.png')
     #elif 'amelie' in lowtext or 'finn' in lowtext:
     #    return('https://cdn.discordapp.com/attachments/789562687054413836/964913032692117514/unknown.png')
